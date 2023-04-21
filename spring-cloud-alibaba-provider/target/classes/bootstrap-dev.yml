@@ -1,0 +1,37 @@
+## 这里的应用名对应 Nacos Config 中的 Data ID，实际应用名称以配置中心的配置为准
+#spring.application.name=nacos-config-dev
+## 指定查找名为 nacos-provider-config.yaml 的配置文件
+#spring.cloud.nacos.config.file-extension=yaml
+## Nacos Server 的地址
+#spring.cloud.nacos.config.server-addr=127.0.0.1:8848
+
+
+
+spring:
+    application:
+        ## 这里的应用名对应 Nacos Config 中的 Data ID，实际应用名称以配置中心的配置为准
+        name: nacos-config-dev
+    cloud:
+        nacos:
+            config:
+                ## 指定查找名为 nacos-provider-config.yaml 的配置文件
+                file-extension: yaml
+                ## Nacos Server 的地址
+                server-addr: 127.0.0.1:8848
+#spring:
+#    application:
+#        name: nacos-provider-dev
+#
+#    cloud:
+#        nacos:
+#            username: nacos
+#            password: nacos
+#            discovery:
+#                server-addr: 127.0.0.1:8848
+#                namespace: 2c3f36fb-fcd0-496a-83a5-d37a7eba906a
+#            config:
+#                server-addr: 127.0.0.1:8848
+#                namespace: 2c3f36fb-fcd0-496a-83a5-d37a7eba906a
+##                group: DEFAULT_GROUP
+#                file-extension: yaml
+
