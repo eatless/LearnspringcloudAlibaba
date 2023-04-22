@@ -1,16 +1,7 @@
 package com.pzhu.spring.cloud.alibaba.consumer.service;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.write.builder.ExcelWriterBuilder;
-import com.pzhu.spring.cloud.alibaba.consumer.Util.AsyncUtil;
-import com.pzhu.spring.cloud.alibaba.consumer.excel.Listener.ExcelListener;
-import com.pzhu.spring.cloud.alibaba.consumer.excel.WriteData.DemoData;
-import java.util.ArrayList;
-import java.util.List;
+import com.pzhu.spring.cloud.alibaba.consumer.Util.ThreadPoolUtil.AsyncUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 @Service
