@@ -27,3 +27,18 @@ CREATE TABLE `bg_blog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 ```
 
+
+先启动gateWay,然后通过gateWay调用provider和consumer。
+
+我的本意是做一个快速搭建springcloudAlibaba的项目
+
+后来就把自己经常用到的工具类，都进行了整合，处理。
+
+consummer中有多线程的实际用例，有easyExcel的excel的写入和读入示例。
+excel的方法参考的是这篇文章https://juejin.cn/post/7102204524063883301
+
+多线程在consummer的Util下
+
+
+
+
