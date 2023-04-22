@@ -88,6 +88,16 @@ public class BgBlogController {
         threadUtilService.muiltiThread();
     }
 
+    /**
+     * 内部类的方式使用多线程
+     *
+     * @return
+     */
+    @PostMapping("innerClassmuiltiThread")
+    public void innerClassmuiltiThread() {
+        threadUtilService.innerClassmuiltiThread();
+    }
+
 
     /**
      * 传入对象的方式

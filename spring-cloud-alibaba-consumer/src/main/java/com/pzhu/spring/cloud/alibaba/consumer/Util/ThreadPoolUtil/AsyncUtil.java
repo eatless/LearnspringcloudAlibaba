@@ -14,7 +14,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 
 public final class AsyncUtil {
-
+    //为什么不建议使用业务组进行分组。
     private static final ConcurrentHashMap<String, CustomThreadPoolExecutor> group = new ConcurrentHashMap<>();
 
     /**
