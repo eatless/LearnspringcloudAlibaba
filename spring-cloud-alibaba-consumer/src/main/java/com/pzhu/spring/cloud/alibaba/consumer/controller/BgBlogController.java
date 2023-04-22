@@ -4,6 +4,7 @@ import com.pzhu.spring.cloud.alibaba.common.domain.BgBlog;
 
 import com.pzhu.spring.cloud.alibaba.consumer.service.BgBlogServiceFeign;
 import com.pzhu.spring.cloud.alibaba.consumer.service.ExcelService;
+import com.pzhu.spring.cloud.alibaba.consumer.service.ThreadUtilService;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class BgBlogController {
 
     @Autowired
     private ExcelService excelService;
+
+    @Autowired
+    private ThreadUtilService threadUtilService;
 
     /**
      * 查询列表
@@ -56,25 +60,13 @@ public class BgBlogController {
         excelService.readExcel();
     }
 
-
-    public static class Main {
-        public static void main(String[] args) throws InterruptedException {
-            final CountDownLatch countDownLatch = new CountDownLatch(10);
-            for (int i = 0; i < 10; i++) {
-                int finalI = i;
-                new Thread(() -> {
-                    int second = new Random().nextInt(10);
-                    try {
-                        Thread.sleep(second * 1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("线程" + finalI + "干完活了");
-                    countDownLatch.countDown();
-                }).start();
-            }
-            countDownLatch.await();
-            System.out.println("老板发话了，所有人干完活了！");
-        }
+    /**
+     * 多线程处理数据计算数据
+     * @return
+     */
+    @PostMapping("muiltiThread")
+    public void muiltiThread(){
+        threadUtilService.muiltiThread();
     }
+
 }
