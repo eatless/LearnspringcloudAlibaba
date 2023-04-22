@@ -4,7 +4,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Service;
 
 /**
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/17 1:58
  */
 @Service

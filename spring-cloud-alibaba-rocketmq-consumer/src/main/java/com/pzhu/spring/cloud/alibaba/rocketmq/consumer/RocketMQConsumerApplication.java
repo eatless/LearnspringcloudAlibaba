@@ -7,7 +7,7 @@ import org.springframework.cloud.stream.messaging.Sink;
 
 /**
  * 消息队列消费者
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/17 1:59
  */
 @SpringBootApplication

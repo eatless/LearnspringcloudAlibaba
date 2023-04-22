@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 博客(BgBlog)表服务实现类
  *
- * @author Guo Huaijian
+ * @author Jin haiyang
  * @since 2020-03-16 15:48:36
  */
 @Service("bgBlogService")

@@ -16,9 +16,10 @@ import java.util.List;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
 /**
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/16 19:03
  */
+
 @RestController
 @EnableOpenApi
 public class BgBlogController {

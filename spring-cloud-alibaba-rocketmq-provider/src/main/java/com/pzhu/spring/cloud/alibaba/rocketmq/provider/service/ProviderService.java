@@ -7,7 +7,7 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 /**
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/17 1:52
  */
 @Service

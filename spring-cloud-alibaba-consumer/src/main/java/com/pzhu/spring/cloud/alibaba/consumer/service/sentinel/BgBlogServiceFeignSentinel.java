@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * BgBlogServiceFeign的熔断器
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/15 18:05
  */
 @Component

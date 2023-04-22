@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * feign接口
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/16 16:41
  */
 @FeignClient(value = "nacos-provider",fallback = BgBlogServiceFeignSentinel.class)

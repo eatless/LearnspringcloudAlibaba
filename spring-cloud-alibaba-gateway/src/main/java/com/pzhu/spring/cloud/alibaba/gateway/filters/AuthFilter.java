@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * 鉴权过滤器
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/16 23:33
  */
 @Component

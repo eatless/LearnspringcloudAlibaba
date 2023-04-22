@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 博客(BgBlog)实体类
  *
- * @author Guo Huaijian
+ * @author Jin haiyang
  * @since 2020-03-16 15:48:34
  */
 @Data

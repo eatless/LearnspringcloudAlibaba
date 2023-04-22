@@ -8,7 +8,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 
 /**
  * 服务消费者
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/16 15:02
  */
 @SpringBootApplication

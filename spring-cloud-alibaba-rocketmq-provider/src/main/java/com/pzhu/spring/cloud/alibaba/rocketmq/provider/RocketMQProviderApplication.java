@@ -7,7 +7,7 @@ import org.springframework.cloud.stream.messaging.Source;
 
 /**
  * 消息队列提供者
- * @Author Guo Huaijian
+ * @Author Jin haiyang
  * @Date 2020/3/16 15:02
  */
 @SpringBootApplication
