@@ -1,0 +1,22 @@
+<html>
+<body>
+<button id="btn1"  >下载1</button>
+<button id="btn2">下载2</button>
+</body>
+<script type="text/javascript">
+  var $eleBtn1 = $("#btn1");
+  $eleBtn1.click(function(){
+    window.open("https://codeload.github.com/douban/douban-client/legacy.zip/master");
+  });
+  //表单下载
+  var $eleBtn2 = $("#btn2");
+  $eleBtn2.click(function(){
+    var $eleForm = $("<form method='get' </form>");
+    $eleForm.attr("action","https://codeload.github.com/douban/douban-client/legacy.zip/master");
+    $(document.body).append($eleForm);
+    $eleForm.submit();
+  })
+</script>
+</body>
+</html>>
+

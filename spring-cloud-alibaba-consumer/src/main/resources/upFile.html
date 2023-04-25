@@ -8,11 +8,41 @@
 
 
 <!--1在consumer中可以进行文件上传。-->
-<form action="http://localhost:8083/uplode3" method="post" enctype="multipart/form-data" >
+<form action="http://localhost:8083/fileUpload" method="post" enctype="multipart/form-data" >
   <input type="file" value="上传单个文件" name="one" ><p>
 <!--  <input type="file" value="上传多个文件" name="any"  multiple><p>-->
   <input type="submit" value="提交" >
+
+
 </form>
 
+<button type="button" id="btn1">下载一个zip（方法1）</button>
+<button type="button" id="btn2">下载一个zip（方法2）</button>
+
 </body>
+
+<script >
+
+  var $eleBtn1 = $("#btn1");
+  var $eleBtn2 = $("#btn2");
+
+  //已知一个下载文件的后端接口：https://codeload.github.com/douban/douban-client/legacy.zip/master
+  //方法一：window.open()
+  $eleBtn1.click(function(){
+    window.open("https://codeload.github.com/douban/douban-client/legacy.zip/master");
+  });
+
+  //方法二：通过form
+  $eleBtn2.click(function(){
+    var $eleForm = $("<form method='get'></form>");
+
+    $eleForm.attr("action","https://codeload.github.com/douban/douban-client/legacy.zip/master");
+
+    $(document.body).append($eleForm);
+
+    //提交表单，实现下载
+    $eleForm.submit();
+  });
+
+</script>
 </html>
