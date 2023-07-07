@@ -12,7 +12,7 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-
+        namespace: 2c3f36fb-fcd0-496a-83a5-d37a7eba906a
 server:
   port: 8081
 

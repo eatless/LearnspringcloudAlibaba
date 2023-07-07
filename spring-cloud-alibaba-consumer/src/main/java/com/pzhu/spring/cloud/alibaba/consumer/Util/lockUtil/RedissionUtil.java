@@ -2,6 +2,7 @@ package com.pzhu.spring.cloud.alibaba.consumer.Util.lockUtil;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
+import com.pzhu.spring.cloud.alibaba.common.Enum.RedisLockEnum;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,40 +24,60 @@ public class RedissionUtil {
     @Autowired
     private Redisson redisson;
 
+    public <T> T executeWithLockThrows(String key, int waitTime, TimeUnit unit, SupplierThrow<T> supplier) throws Throwable {
+        RLock lock = redisson.getLock(key);
+        boolean lockSuccess = lock.tryLock(waitTime, unit);
+        if (!lockSuccess) {
+            throw new RuntimeException("请求太频繁了，请稍后再试哦~~");
+        }
+        try {
+            //执行锁内的代码逻辑
+            return supplier.get();
+        } finally {
+            if (lock.isLocked() && lock.isHeldByCurrentThread()) {
+                lock.unlock();
+            }
+        }
+    }
+
+    @FunctionalInterface
+    public interface SupplierThrow<T> {
+        /**
+         *  Gets a result.
+         * @return  Gets a result.
+         * @throws Throwable 异常
+         */
+        T get() throws Throwable;
+    }
+
     /**
-     * 排房锁前缀
+     * 加锁等待时长，2S
      */
-    public static final String ROOM_ARRANGE_LOCK_TITLE = "ROOM_ARRANGE:";
     public static final long LOCK_WAIT_TIME = 2000L;
 
-    /**
-     * 自动排房key
-     */
-    public static final String AUTO_ROOM_ARRAGE_LOCK = "AUTO_ROOM_ARRAGE_LOCK";
-
     //阻塞加锁
-    public boolean acquire(String lockName, long expireTime) {
+    public boolean acquire(RedisLockEnum redisLockEnum, String lockName) {
         //声明key对象
-        String key = ROOM_ARRANGE_LOCK_TITLE + lockName;
+        String key = redisLockEnum.getPreKey() + lockName;
         //获取锁对象
         RLock mylock = redisson.getLock(key);
         //加锁，并且设置锁过期时间3秒，防止死锁的产生  uuid+threadId
-        mylock.lock(expireTime, TimeUnit.SECONDS);
+        mylock.lock(redisLockEnum.getExpireTime(), TimeUnit.SECONDS);
         //加锁成功
         return true;
     }
 
 
     // 尝试加锁，加锁失败返回异常
-    public boolean tryAcquire(String lockName, long expireTime) {
+    public boolean tryAcquire(RedisLockEnum redisLockEnum, String lockName) {
         // 声明key对象
-        String key = ROOM_ARRANGE_LOCK_TITLE + lockName;
+        String key = redisLockEnum.getPreKey() + lockName;
         // 获取锁对象
         RLock mylock = redisson.getLock(key);
         // 使用tryLock方法尝试加锁，并且设置锁过期时间
         try {
             // 如果成功获取锁，返回true，否则返回false
-            return mylock.tryLock(0, expireTime, TimeUnit.SECONDS);
+            return mylock.tryLock(1, redisLockEnum.getExpireTime(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             // 发生异常时，返回false
             return false;
@@ -65,9 +86,9 @@ public class RedissionUtil {
 
 
     //锁的释放
-    public void release(String lockName) {
+    public void release(RedisLockEnum redisLockEnum, String lockName) {
         //必须是和加锁时的同一个key
-        String key = ROOM_ARRANGE_LOCK_TITLE + lockName;
+        String key = redisLockEnum.getPreKey() + lockName;
         //获取所对象
         RLock mylock = redisson.getLock(key);
         //释放锁（解锁）
@@ -77,18 +98,18 @@ public class RedissionUtil {
     /**
      * 批量添加锁
      *
-     * @param resourceList 资源列表
-     * @param expireTime   加锁时间，秒级别
+     * @param redisLockEnum 加锁枚举
+     * @param resourceList  资源列表
      * @return 加锁结果
      */
-    public boolean multiLockTryAcquire(List<String> resourceList, String hotelCode, long expireTime) {
-        if(CollUtil.isEmpty(resourceList)){
+    public boolean multiLockTryAcquire(RedisLockEnum redisLockEnum, List<String> resourceList) {
+        if (CollUtil.isEmpty(resourceList)) {
             return true;
         }
         // 创建分布式锁对象数组
         RLock[] locks = new RLock[resourceList.size()];
         for (int i = 0; i < resourceList.size(); i++) {
-            locks[i] = redisson.getLock(ROOM_ARRANGE_LOCK_TITLE + hotelCode +":"+ resourceList.get(i));
+            locks[i] = redisson.getLock(redisLockEnum.getPreKey() + ":" + resourceList.get(i));
         }
         // 获取 RedissonMultiLock 对象
         RedissonMultiLock multiLock = new RedissonMultiLock(locks);
@@ -96,15 +117,15 @@ public class RedissionUtil {
         try {
             long startLock = System.currentTimeMillis();
             //加锁
-            boolean isLocked = multiLock.tryLock(2, expireTime, TimeUnit.SECONDS);
+            boolean isLocked = multiLock.tryLock(2, redisLockEnum.getExpireTime(), TimeUnit.SECONDS);
             long endLock = System.currentTimeMillis();
-            log.info("rowHouses      加锁耗时为{}",endLock-startLock);
-            if(endLock-startLock>LOCK_WAIT_TIME){
+            log.info("log      加锁耗时为{}", endLock - startLock);
+            if (endLock - startLock > LOCK_WAIT_TIME) {
                 //收集大于2S的次数，如果过多，需要调整。
-                log.error("rowHouses        加锁时间过长");
+                log.error("log        加锁时间过长");
             }
             if (!isLocked) {
-                log.info("rowHouses        加锁失败!");
+                log.info("log        加锁失败!");
             }
             return isLocked;
         } catch (InterruptedException e) {
@@ -118,11 +139,11 @@ public class RedissionUtil {
      *
      * @param resourceList 释放锁资源
      */
-    public void mutiLockRelease(List<String> resourceList, String hotelCode) {
+    public void mutiLockRelease(RedisLockEnum redisLockEnum, List<String> resourceList) {
         // 创建分布式锁对象数组
         RLock[] locks = new RLock[resourceList.size()];
         for (int i = 0; i < resourceList.size(); i++) {
-            locks[i] = redisson.getLock(ROOM_ARRANGE_LOCK_TITLE + hotelCode +":"+ resourceList.get(i));
+            locks[i] = redisson.getLock(redisLockEnum.getPreKey() + ":" + resourceList.get(i));
         }
         // 获取 RedissonMultiLock 对象
         RedissonMultiLock multiLock = new RedissonMultiLock(locks);
@@ -144,22 +165,9 @@ public class RedissionUtil {
         for (String key : keys) {
             list.add(key);
         }
-        log.info(" rowHouses  查询到的key有    {}" , JSON.toJSONString(list));
+        log.info(" log  查询到的key有    {}", JSON.toJSONString(list));
         return list;
     }
-
-
-    /**
-     * 校验锁是否被锁定
-     * @param lockKey
-     * @return
-     */
-    public Boolean checkLockIsLocked(String lockKey){
-        // 获取指定名称的分布式锁对象
-        RLock lock = redisson.getLock(lockKey);
-        return lock.isLocked();
-    }
-
 
 
 }

@@ -40,6 +40,7 @@ public class RedissonManager {
 
     @Bean
     Redisson RedissionTemplate() {
+        log.info("redis:"+ host);
         Config config = new Config();
         //声明redisson对象
         config.useSingleServer()

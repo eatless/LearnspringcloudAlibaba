@@ -1,0 +1,14 @@
+spring:
+    application:
+        name: nacos-consumer
+    cloud:
+        nacos:
+            discovery:
+                server-addr: 127.0.0.1:8848
+                namespace: 2c3f36fb-fcd0-496a-83a5-d37a7eba906a
+            config:
+                ## Nacos Server 的地址
+                server-addr: 127.0.0.1:8848
+                namespace: 2c3f36fb-fcd0-496a-83a5-d37a7eba906a
+                ## 指定查找名为 nacos-provider-config.yaml 的配置文件
+                file-extension: yaml
