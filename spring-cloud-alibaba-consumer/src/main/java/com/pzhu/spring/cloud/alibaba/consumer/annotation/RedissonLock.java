@@ -1,5 +1,6 @@
 package com.pzhu.spring.cloud.alibaba.consumer.annotation;
 
+import com.pzhu.spring.cloud.alibaba.consumer.Enum.RedisLockEnum;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

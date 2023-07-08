@@ -2,7 +2,7 @@ package com.pzhu.spring.cloud.alibaba.consumer.Util.lockUtil;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
-import com.pzhu.spring.cloud.alibaba.common.Enum.RedisLockEnum;
+import com.pzhu.spring.cloud.alibaba.consumer.Enum.RedisLockEnum;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -151,23 +151,6 @@ public class RedissionUtil {
         multiLock.unlock();
     }
 
-
-    /**
-     * 获取某个前缀的rediskey， 底层使用scan命令。
-     *
-     * @param prefix
-     * @return
-     */
-    public List<String> getKeysByPreUseScan(String prefix) {
-        // 获取以"prefix"开头的key
-        Iterable<String> keys = redisson.getKeys().getKeysByPattern(prefix);
-        ArrayList<String> list = new ArrayList<>();
-        for (String key : keys) {
-            list.add(key);
-        }
-        log.info(" log  查询到的key有    {}", JSON.toJSONString(list));
-        return list;
-    }
 
 
 }
