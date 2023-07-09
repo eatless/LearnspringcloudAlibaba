@@ -24,9 +24,9 @@ public class RedissionUtil {
     @Autowired
     private Redisson redisson;
 
-    public <T> T executeWithLockThrows(String key, int waitTime, TimeUnit unit, SupplierThrow<T> supplier) throws Throwable {
+    public <T> T executeWithLockThrows(String key, int waitTime, long expireTime,TimeUnit unit, SupplierThrow<T> supplier) throws Throwable {
         RLock lock = redisson.getLock(key);
-        boolean lockSuccess = lock.tryLock(waitTime, unit);
+        boolean lockSuccess = lock.tryLock(waitTime,expireTime, unit);
         if (!lockSuccess) {
             throw new RuntimeException("请求太频繁了，请稍后再试哦~~");
         }

@@ -38,6 +38,13 @@ public @interface RedissonLock {
     int waitTime() default -1;
 
     /**
+     * 自动释放锁时长，默认为-1，也就是不会自动释放锁。根据业务设置自动释放锁时长，避免死锁
+     *
+     * @return 单位秒
+     */
+    int expireTime() default -1;
+
+    /**
      * 等待锁的时间单位，默认毫秒
      *
      * @return 单位
