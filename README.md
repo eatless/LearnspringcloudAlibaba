@@ -42,3 +42,5 @@ excel的方法参考的是这篇文章https://juejin.cn/post/7102204524063883301
 
 
 
+新增一个注解实现分布式锁。
+另赋分布式锁 全套学习地址 https://blog.csdn.net/weixin_43232423/article/details/131796013?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22131796013%22%2C%22source%22%3A%22weixin_43232423%22%7D
